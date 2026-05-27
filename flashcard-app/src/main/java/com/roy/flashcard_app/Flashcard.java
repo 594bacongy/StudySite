@@ -1,6 +1,13 @@
 package com.roy.flashcard_app;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+
+@Entity
+@Table(name = "flashcards")
 public class Flashcard {
+    @Id
     private int id;
     private String user_id;
     private String question;

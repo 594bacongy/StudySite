@@ -8,38 +8,41 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api")
 public class RESTController {
+    
+private final FlashcardRepository repository;
 
+public RESTController(FlashcardRepository repository) {
+    this.repository = repository;
+}
 
      @GetMapping("/flashcards")
-    public String getFlashcards() {
-        Flashcard flashcard = new Flashcard(1, "user1", "What is Java?", "A programming language");
+    public List<Flashcard> getFlashcards() {
 
-       String question = flashcard.getQuestion();
-        return question;
+    return repository.findAll();
     }
-
     @GetMapping("/flashcards/{id}")
-   public String getFlashcardById(@PathVariable int id) {
-        return "Flashcard with ID: " + id;
+   public Flashcard getFlashcardById(@PathVariable int id) {
+        return repository.findById(id).orElse(null);
     }
 
     @PostMapping("/flashcards")
-    public String createFlashcard(@RequestBody Flashcard flashcard){
-        String question = flashcard.getQuestion();
-    String answer = flashcard.getAnswer();
-
-    return "Flashcard created with question: " + question + " and answer: " + answer;
+    public Flashcard createFlashcard(@RequestBody Flashcard flashcard){
+        return repository.save(flashcard);
     }
 
     @DeleteMapping("/flashcards/{id}")
     public String deleteFlashcard(@PathVariable int id) {
-        return "Flashcard deleted";
-    }
+
+    repository.deleteById(id);
+
+    return "Flashcard deleted";
+
+}
     
 }
