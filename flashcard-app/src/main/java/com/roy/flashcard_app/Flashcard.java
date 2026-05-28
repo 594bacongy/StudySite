@@ -1,5 +1,7 @@
 package com.roy.flashcard_app;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -8,7 +10,8 @@ import jakarta.persistence.Table;
 @Table(name = "flashcards")
 public class Flashcard {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String user_id;
     private String question;
     private String answer;
@@ -16,14 +19,14 @@ public class Flashcard {
     public Flashcard() {
     }
 
-    public Flashcard(int id, String user_id, String question, String answer) {
+    public Flashcard(Integer id, String user_id, String question, String answer) {
         this.id = id;
         this.user_id = user_id;
         this.question = question;
         this.answer = answer;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -39,7 +42,7 @@ public class Flashcard {
         return answer;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
