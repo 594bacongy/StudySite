@@ -1,0 +1,153 @@
+<div class="dash-root">
+ 
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-brand">
+      <span class="brand-name">Flashcard Study App</span>
+    </div>
+ 
+    <div class="nav-right">
+      <div class="user-pill">
+        <div class="user-avatar">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5.5" r="3" stroke="#7C6EFA" stroke-width="1.5"/>
+            <path d="M2 13.5C2 11.015 4.686 9 8 9s6 2.015 6 4.5" stroke="#7C6EFA" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="user-label">{{ user_id }}</span>
+      </div>
+      <button class="btn-logout" (click)="logout()">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+          <path d="M6 14H3a1 1 0 01-1-1V3a1 1 0 011-1h3M11 11l3-3-3-3M14 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </header>
+ 
+  <!-- MAIN LAYOUT -->
+  <main class="dash-body">
+ 
+    <!-- SIDEBAR: create panel -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2 class="section-title">New Flashcard</h2>
+        <p class="section-sub">Add a card to your deck</p>
+      </div>
+ 
+      <div class="create-form">
+        <div class="field-group">
+          <label class="field-label">Question</label>
+          <textarea
+            class="field-textarea"
+            placeholder="What do you want to remember?"
+            [(ngModel)]="newFlashcard.question"
+            rows="4"
+          ></textarea>
+        </div>
+ 
+        <div class="divider-line">
+          <span class="divider-label">Answer</span>
+        </div>
+ 
+        <div class="field-group">
+          <label class="field-label">Answer</label>
+          <textarea
+            class="field-textarea"
+            placeholder="The answer you want to recall..."
+            [(ngModel)]="newFlashcard.answer"
+            rows="4"
+          ></textarea>
+        </div>
+ 
+        <button class="btn-create" (click)="createFlashcard()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Create Card
+        </button>
+      </div>
+ 
+      <div class="stat-block">
+        <div class="stat-item">
+          <span class="stat-num">{{ flashcards.length }}</span>
+          <span class="stat-desc">Cards in deck</span>
+        </div>
+      </div>
+    </aside>
+ 
+    <!-- MAIN: cards list -->
+    <section class="cards-section">
+      <div class="cards-header">
+        <div>
+          <h2 class="cards-title">Your Deck</h2>
+          <p class="cards-sub">Study, review, and manage your flashcards</p>
+        </div>
+        <div class="deck-badge">{{ flashcards.length }} cards</div>
+      </div>
+
+      <!-- error banner -->
+      @if (errorMsg) {
+        <div class="error-banner">{{ errorMsg }}</div>
+      }
+
+      <!-- loading -->
+      @if (isLoading) {
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading flashcards...</p>
+        </div>
+      }
+
+      <!-- empty state -->
+      @if (!isLoading && flashcards.length === 0 && !errorMsg) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="6" y="10" width="28" height="20" rx="5" stroke="#3A3C50" stroke-width="2"/>
+              <rect x="10" y="6" width="20" height="4" rx="2" fill="#3A3C50"/>
+              <path d="M15 20h10M20 15v10" stroke="#4A4D60" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="empty-title">No cards yet</p>
+          <p class="empty-body">Create your first flashcard using the panel on the left.</p>
+        </div>
+      }
+ 
+      <!-- cards grid -->
+      @if (!isLoading && flashcards.length > 0) {
+        <div class="cards-grid">
+          @for (flashcard of flashcards; track flashcard.id) {
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-body">
+                  <div class="flashcard-q-block">
+                    <span class="fc-label">Q</span>
+                    <p class="fc-question">{{ flashcard.question }}</p>
+                  </div>
+                  <div class="fc-divider"></div>
+                  <div class="flashcard-a-block">
+                    <span class="fc-label fc-label--ans">A</span>
+                    <p class="fc-answer">{{ flashcard.answer }}</p>
+                  </div>
+                </div>
+                <div class="flashcard-footer">
+                  <span class="fc-id">ID: {{ flashcard.id }}</span>
+                  <button class="btn-delete" (click)="deleteFlashcard(flashcard.id)">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 4h10M6 4V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5V4M6.5 7v5M9.5 7v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                      <rect x="3" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/>
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+ 
+    </section>
+  </main>
+</div>

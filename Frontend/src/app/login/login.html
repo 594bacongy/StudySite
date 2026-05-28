@@ -1,0 +1,43 @@
+<div class="login-root">
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="login-card">
+    <div class="brand">
+      <span class="brand-name">Flashcard Study App</span>
+    </div>
+
+    <div class="login-header">
+      <h1 class="login-title">Welcome back</h1>
+      <p class="login-subtitle">Your flashcards are waiting. Enter your ID to continue studying.</p>
+    </div>
+
+    <div class="login-form">
+      <div class="field-group">
+        <label class="field-label" for="userId">User ID</label>
+        <div class="input-wrap">
+          <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5.5" r="3" stroke="#6B7280" stroke-width="1.5" />
+            <path d="M2 13.5C2 11.015 4.686 9 8 9s6 2.015 6 4.5" stroke="#6B7280" stroke-width="1.5"
+              stroke-linecap="round" />
+          </svg>
+          <input id="userId" class="field-input" type="text" placeholder="Enter your user ID" [(ngModel)]="user_id"
+            autocomplete="off" (keyup.enter)="login()" />
+        </div>
+        @if (errorMsg) {
+          <p class="error-msg">{{ errorMsg }}</p>
+        }
+      </div>
+
+      <button class="btn-login" (click)="login()">
+        <span>Sign In</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+
+    <p class="login-footer">Powered by Spring Boot &amp; Supabase</p>
+  </div>
+</div>
